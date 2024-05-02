@@ -29,6 +29,7 @@ public class AccountingLedger {
     static String line;
     static String input;
     static String monthString;
+    static String vendor;
     static String searchVendor;
     static String transactionVendor;
     static String transactionDesc;
@@ -147,9 +148,9 @@ public class AccountingLedger {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true))) {
             writer.write("\n" + finalDateTime + "|" + depoDesc + "|" + depoVendor + "|" + depositAmount);
 
-            // Success messsage.
+            // Success message.
             System.out.println("\nDeposit information added to transactions.csv successfully.\n");
-            // If an error occured, print error.
+            // If an error occurred, print error.
         } catch (IOException e) {
             System.out.println("\nAn error occurred while writing to the file: " + e.getMessage() + "\n");
         }
@@ -195,6 +196,7 @@ public class AccountingLedger {
             System.out.print("Invalid input. Please try again: ");
             ledgerInput = scanner.nextLine();
         }
+    }
         // Create ledgerAll method.
         public static void ledgerAll() {
             try (BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"))) {
@@ -215,7 +217,7 @@ public class AccountingLedger {
                     // Print all transactions.
                     System.out.println(line);
                 }
-                // If an error occured, print error.
+                // If an error occurred, print error.
             } catch (IOException e) {
                 System.out.println("An error occurred while reading the file: " + e.getMessage());
             }
@@ -225,7 +227,7 @@ public class AccountingLedger {
         }
 
         // Create the ledgerDeposits method.
-        public static void ledgerDeposits() {
+        private static void ledgerDeposits() {
             try (BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"))) {
                 // Skip the first line.
                 line = reader.readLine();
@@ -252,7 +254,7 @@ public class AccountingLedger {
                         System.out.println(line);
                     }
                 }
-                // If an error occured, print error.
+                // If an error occurred, print error.
             } catch (IOException | ArrayIndexOutOfBoundsException | NumberFormatException e) {
                 System.out.println("An error occurred while reading the file: " + e.getMessage());
             }
@@ -292,7 +294,7 @@ public class AccountingLedger {
                         ledger();
                     }
                 }
-                // If an error occured, print error.
+                // If an error occurred, print error.
             } catch (IOException | ArrayIndexOutOfBoundsException | NumberFormatException e) {
                 System.out.println("An error occurred while reading the file: " + e.getMessage());
             }
@@ -374,10 +376,10 @@ public class AccountingLedger {
                 while ((line = reader.readLine()) != null) {
                     // Split the information into parts.
                     String[] parts = line.split("\\|");
-                    transactionDate = LocalDate.parse(parts[0].split("\\|")[0]);
+                    transDate = LocalDate.parse(parts[0].split("\\|")[0]);
 
                     // Check if the date is in the current month and year.
-                    if (transactionDate.getMonthValue() == currentMonth && transactionDate.getYear() == currentYear) {
+                    if (transDate.getMonthValue() == currentMonth && transDate.getYear() == currentYear) {
                         System.out.println(line);
                         found = true;
                     }
@@ -401,8 +403,8 @@ public class AccountingLedger {
             // Get the date for the last month.
             currentDate = LocalDate.now();
             lastMonthDate = currentDate.minusMonths(1);
-            lastMonth = lastMonthDate.getMonthValue();
-            lastYear = lastMonthDate.getYear();
+            previousMonth = lastMonthDate.getMonthValue();
+            previousYear = lastMonthDate.getYear();
 
             try (BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"))) {
                 // Skip the first line.
@@ -419,10 +421,10 @@ public class AccountingLedger {
                 while ((line = reader.readLine()) != null) {
                     // Split the information into parts.
                     String[] parts = line.split("\\|");
-                    transactionDate = LocalDate.parse(parts[0].split("\\|")[0]);
+                    transDate = LocalDate.parse(parts[0].split("\\|")[0]);
 
                     // Check if the date is in the last month.
-                    if (transactionDate.getMonthValue() == lastMonth && transactionDate.getYear() == lastYear) {
+                    if (transDate.getMonthValue() == previousMonth && transDate.getYear() == previousYear) {
                         System.out.println(line);
                         found = true;
                     }
@@ -461,10 +463,10 @@ public class AccountingLedger {
                 while ((line = reader.readLine()) != null) {
                     // Split the information into parts.
                     String[] parts = line.split("\\|");
-                    transactionDate = LocalDate.parse(parts[0].split("\\|")[0]);
+                    transDate = LocalDate.parse(parts[0].split("\\|")[0]);
 
                     // Check if the date is in the current year.
-                    if (transactionDate.getYear() == currentYear) {
+                    if (transDate.getYear() == currentYear) {
                         System.out.println(line);
                         found = true;
                     }
@@ -488,7 +490,7 @@ public class AccountingLedger {
             // Get the date for the previous year.
             currentDate = LocalDate.now();
             lastYearDate = currentDate.minusYears(1);
-            lastYear = lastYearDate.getYear();
+            previousYear = lastYearDate.getYear();
 
             try (BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"))) {
                 // Skip the first line.
@@ -508,7 +510,7 @@ public class AccountingLedger {
                     LocalDate transactionDate = LocalDate.parse(parts[0].split("\\|")[0]);
 
                     // Check if the date is in the previous year.
-                    if (transactionDate.getYear() == lastYear) {
+                    if (transactionDate.getYear() == previousYear) {
                         System.out.println(line);
                         found = true;
                     }
@@ -578,7 +580,7 @@ public class AccountingLedger {
             System.out.print("Start date (YYYY-MM-DD): ");
             String startDateInput = scanner.nextLine().trim();
 
-            // If their was an input, set the value.
+            // If there was an input, set the value.
             if (!startDateInput.isEmpty()) {
                 startDate = LocalDate.parse(startDateInput);
             }
@@ -604,7 +606,7 @@ public class AccountingLedger {
             System.out.print("Amount: ");
             String amountInput = scanner.nextLine().trim();
 
-            // If their was an input, set the value.
+            // If there was an input, set the value.
             Double amount = null;
             if (!amountInput.isEmpty()) {
                 amount = Double.parseDouble(amountInput);
@@ -631,10 +633,7 @@ public class AccountingLedger {
                     transactionAmount = Double.parseDouble(parts[4]);
 
                     // Check if the transaction matches the search criteria.
-                    match = true;
-                    if (startDate != null && transDate.isBefore(startDate)) {
-                        match = false;
-                    }
+                    match = startDate == null || !transDate.isBefore(startDate);
                     if (endDate != null && transDate.isAfter(endDate)) {
                         match = false;
                     }
@@ -648,7 +647,7 @@ public class AccountingLedger {
                         match = false;
                     }
 
-                    // Print the transaction if it matches all the criterias.
+                    // Print the transaction if it matches all the criteria.
                     if (match) {
                         System.out.println(line);
                         found = true;
@@ -668,7 +667,3 @@ public class AccountingLedger {
             ledgerReports();
         }
     }
-    }
-
-
-}
