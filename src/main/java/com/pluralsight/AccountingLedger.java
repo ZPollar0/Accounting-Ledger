@@ -14,21 +14,20 @@ public class AccountingLedger {
     //Implement the scanner
    static Scanner scanner = new Scanner(System.in);
     //Variables
+    static String userInput;
+    static String paymentDesc;
+    static String paymentVendor;
+    static String depoDesc;
+    static String depoVendor;
     static int currentMonth;
     static int currentYear;
     static int reportInput;
     static int previousYear;
     static int previousMonth;
-    static String userInput;
     static String ledgerInput;
-    static String depoDesc;
-    static String depoVendor;
-    static String paymentDesc;
-    static String paymentVendor;
     static String finalDateTime;
     static String line;
     static String input;
-    static String monthString;
     static String vendor;
     static String searchVendor;
     static String transactionVendor;
@@ -43,10 +42,10 @@ public class AccountingLedger {
     static LocalDate currentDate;
     static LocalDate lastYearDate;
     static LocalDate transDate;
-    static LocalDate startDate = null;
-    static LocalDate endDate = null;
     static LocalDateTime currentTime;
     static DateTimeFormatter formatDateTime;
+    static LocalDate startDate = null;
+    static LocalDate endDate = null;
     public static void main(String[] args) {
 
         Menu();
@@ -59,7 +58,6 @@ public class AccountingLedger {
         System.out.println("[L] Ledger");
         System.out.println("[M] Return to Menu");
         System.out.println("[Q] Quit");
-        int command;
 
         System.out.println("Please choose an option: ");
          userInput = scanner.nextLine();
@@ -78,7 +76,7 @@ public class AccountingLedger {
         } else if (userInput.equalsIgnoreCase("Q")) {
             // Quit.
             System.exit(0);
-            // If user entered a wrong input.
+            // If user enters a wrong input:
         } else {
             System.out.print("Invalid input. Please try again: ");
             userInput = scanner.nextLine();
@@ -87,7 +85,7 @@ public class AccountingLedger {
     }
 
     private static void makePayment() {
-        System.out.println("Please enter Payment Information: ");
+        System.out.println("\nPlease enter Payment Information: ");
 
         //Prompt the user for their payment description
         System.out.println("Please enter payment description");
@@ -107,30 +105,32 @@ public class AccountingLedger {
         currentTime =  LocalDateTime.now();
         finalDateTime = currentTime.format(formatDateTime);
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv"))){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("transactions.csv", true))){
             writer.write("\n"+finalDateTime + "|" + paymentDesc + "|" + paymentVendor + "|" + paymentAmount);
 
             System.out.println("\n Payment information added to transactions sheet successfully.\n");
             //Catch error if user inputs something different
         } catch (IOException e){
             System.out.println("\n An error occurred while attempting to file. " +e.getMessage() + "\n");
+            e.getStackTrace();
         }
         Menu();
     }
     // Create the addDeposit method.
     public static void addDeposit() {
-        // Ask user to enter their deposit information.
+        // Prompt user to enter their deposit information.
         System.out.println("\nPlease enter the deposit information:");
 
-        // Ask user to enter the deposit information.
+        // Prompt user to enter the deposit information.
         System.out.print("Enter deposit description: ");
         depoDesc = scanner.nextLine();
 
-        // Ask user to enter deposit vendor.
+        // Prompt user to enter deposit vendor.
         System.out.print("Enter deposit vendor: ");
         depoVendor = scanner.nextLine();
 
-        // Ask user to enter deposit amount.
+        // Prompt user to enter deposit amount.
+
         System.out.print("Enter deposit amount: ");
         depositAmount = scanner.nextDouble();
         scanner.nextLine();
@@ -155,7 +155,7 @@ public class AccountingLedger {
             System.out.println("\nAn error occurred while writing to the file: " + e.getMessage() + "\n");
         }
 
-        // Go back to home menu.
+        // Go back to menu.
         Menu();
     }
     // Create the ledger method.
@@ -171,25 +171,20 @@ public class AccountingLedger {
         System.out.print("Please select an option: ");
         ledgerInput = scanner.nextLine();
 
-        // If user chose A.
         if (ledgerInput.equalsIgnoreCase("a")) {
             // Call ledgerAll method.
             ledgerAll();
-            // If user chose D.
         } else if (ledgerInput.equalsIgnoreCase("d")) {
             // Call ledgerDeposits method.
             ledgerDeposits();
-            // If user chose P.
         } else if (ledgerInput.equalsIgnoreCase("p")) {
             // Call ledgerPayments method.
             ledgerPayments();
-            // If user chose R.
         } else if (ledgerInput.equalsIgnoreCase("r")) {
             // Call ledgerReports method.
             ledgerReports();
-            // If user chose H.
         } else if (ledgerInput.equalsIgnoreCase("m")) {
-            // Return to home.
+            // Return to the Menu
             Menu();
             // If user entered a wrong input.
         } else {
@@ -203,7 +198,7 @@ public class AccountingLedger {
                 // Skip the first line.
                 line = reader.readLine();
 
-                // If CSV is empty, print message.
+                // If CSV is empty, return "no transaction found" message
                 if (line == null) {
                     System.out.println("No transactions found.");
                     return;
@@ -232,7 +227,7 @@ public class AccountingLedger {
                 // Skip the first line.
                 line = reader.readLine();
 
-                // If CSV is empty, print message.
+                // If CSV is empty, print "no transaction found" message.
                 if (line == null) {
                     System.out.println("No transactions found.");
                     return;
@@ -290,7 +285,7 @@ public class AccountingLedger {
                     if (amount < 0) {
                         System.out.println(line);
 
-                        // Go back to ledger menu when done.
+                        // Return to ledger.
                         ledger();
                     }
                 }
@@ -305,7 +300,7 @@ public class AccountingLedger {
 
         // Create the ledgerReports method.
         public static void ledgerReports() {
-            // Create menu for reports.
+            // Reports Menu
             System.out.println("\n1) Month to Date");
             System.out.println("2) Previous Month");
             System.out.println("3) Year to Date");
@@ -314,37 +309,29 @@ public class AccountingLedger {
             System.out.println("6) Custom Search");
             System.out.println("0) Back");
 
-            // Ask user to choose an option.
+            // Prompt user to choose an option.
             System.out.print("Choose an option: ");
             reportInput = scanner.nextInt();
             scanner.nextLine();
 
-            // If user chose 1.
             if (reportInput == 1) {
                 // Call monthToDate method.
                 monthToDate();
-                // If user chose 2.
             } else if (reportInput == 2) {
                 // Call previousMonth method.
                 previousMonth();
-                // If user chose 3.
             } else if (reportInput == 3) {
                 // Call yearToDate method.
                 yearToDate();
-                // If user chose 4.
             } else if (reportInput == 4) {
                 // Call previousYear method.
                 previousYear();
-                // If user chose 5.
             } else if (reportInput == 5) {
                 // Call searchByVendor method.
                 searchByVendor();
-                // If user chose 6.
             } else if (reportInput == 6) {
-                // Call customSearch method.
                 customSearch();
             }
-            // If user chose 0.
             else if (reportInput == 0) {
                 // Call ledgerReports method.
                 ledgerReports();
@@ -589,20 +576,20 @@ public class AccountingLedger {
             System.out.print("End date (YYYY-MM-DD): ");
             String endDateInput = scanner.nextLine().trim();
 
-            // If their was an input, set the value.
+            // Set value if there's an input
             if (!endDateInput.isEmpty()) {
                 endDate = LocalDate.parse(endDateInput);
             }
 
-            // Ask the user to input the description.
+            // Prompt the user to input the description.
             System.out.print("Description: ");
             String description = scanner.nextLine().trim();
 
-            // Ask the user to input the vendor.
+            // Prompt the user to input the vendor.
             System.out.print("Vendor: ");
             String vendor = scanner.nextLine().trim();
 
-            // Ask the user to input the amount.
+            // Prompt the user to input the amount.
             System.out.print("Amount: ");
             String amountInput = scanner.nextLine().trim();
 
