@@ -1,5 +1,4 @@
 ﻿# Accounting-Ledger
-=========
 ------
 This capstone was both difficult and fun. I enjoyed it for it's use of testing everything I've learned so far. Here is my capstone!
 
