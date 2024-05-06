@@ -13,7 +13,10 @@ Menu
 Ledger
 ---
 [Screenshot 2024-05-06 094108](https://github.com/ZPollar0/accounting-ledger/assets/166441725/04b7bf7a-6dd2-488c-8c36-a17c629228f8)
+
 ---
 Reports
 ---
-[Screenshot 2024-05-06 094151.png](..%2F..%2F..%2FUsers%2Fsheim%2FOneDrive%2FPictures%2FScreenshots%2FScreenshot%202024-05-06%20094151.png)
+[Screenshot 2024-05-06 094151](https://github.com/ZPollar0/accounting-ledger/assets/166441725/e0954f3e-4a63-44a5-8eed-9125090ef244)
+
+----
