@@ -27,7 +27,6 @@ public class AccountingLedger {
     static String ledgerInput;
     static String finalDateTime;
     static String line;
-    static String input;
     static String vendor;
     static String searchVendor;
     static String transactionVendor;
