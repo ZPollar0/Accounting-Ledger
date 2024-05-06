@@ -7,7 +7,7 @@ This capstone was both difficult and fun. I enjoyed it for it's use of testing e
 Menu
 ---
 
-[Screenshot 2024-05-06 093916](https://github.com/ZPollar0/accounting-ledger/assets/166441725/7dbb9a4c-1288-4166-a073-2ffa4ed7028e)
+![Screenshot 2024-05-06 093916](https://github.com/ZPollar0/accounting-ledger/assets/166441725/7dbb9a4c-1288-4166-a073-2ffa4ed7028e)
 
 ---
 Ledger
